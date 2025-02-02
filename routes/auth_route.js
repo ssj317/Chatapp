@@ -98,7 +98,7 @@ router.post('/login', async (req, res) => {
     try {
         let user = await usermodel.findOne({ email });
         if (!user) {
-            return res.redirect('/signup');
+            return res.redirect('/auth/signup');
         }
 
         bcrypt.compare(password, user.password, (err, result) => {
