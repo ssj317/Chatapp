@@ -4,6 +4,7 @@ const routes = require("./routes/auth_route");
 const app = express();
 const path = require("path");
 const PORT=process.env.PORT||3000;
+const cors=require('cors')
 
 
 const jwt = require("jsonwebtoken");
@@ -23,6 +24,7 @@ const io = require("socket.io")(server, {
     },
     pingTimeout: 60000,  // Add connection stability settings
     connectTimeout: 60000,
+    path: '/socket.io',
     transports: ['polling', 'websocket']
 });
 

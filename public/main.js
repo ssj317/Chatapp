@@ -1,4 +1,7 @@
-const socket = io("https://chatapp-ylzi.vercel.app");
+const socket = io("https://chatapp-ylzi.vercel.app",{
+    transports: ['polling', 'websocket'],
+    path: '/socket.io'
+});
 
 const clientsTotal = document.getElementById("client-total");
 const messageContainer = document.getElementById("message-container");
