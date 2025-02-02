@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat - iChat 💬</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
+      integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
+      crossorigin="anonymous"
+    />
+
+    <style>
+        /* Global Styles */
+        body {
+          font-family: 'Arial', sans-serif;
+          background-color: #f1f2f6;
+          margin: 0;
+          padding: 0;
+        }
+  
+        h1.title {
+          text-align: center;
+          font-size: 3rem;
+          color: #444;
+          margin-top: 30px;
+          text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
+        }
+  
+        .main {
+          width: 90%;
+          max-width: 900px;
+          margin: 0 auto;
+          background-color: #fff;
+          padding: 20px;
+          border-radius: 12px;
+          box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+  
+        .name {
+          display: flex;
+          align-items: center;
+          margin-bottom: 20px;
+        }
+  
+        .name i {
+          font-size: 1.5rem;
+          margin-right: 10px;
+          color: #4caf50;
+        }
+  
+        .name-input {
+          width: 100%;
+          padding: 12px;
+          border-radius: 8px;
+          border: 1px solid #ddd;
+          font-size: 1.1rem;
+          color: #333;
+          background-color: #f9f9f9;
+        }
+  
+        .message-form {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+  
+        .message-input {
+          width: 80%;
+          padding: 10px;
+          border-radius: 5px;
+          border: 1px solid #ddd;
+          font-size: 1rem;
+          color: #333;
+          background-color: #f9f9f9;
+          margin-right: 10px;
+        }
+  
+        .send-button {
+          padding: 10px 15px;
+          background-color: #4caf50;
+          border: none;
+          border-radius: 5px;
+          color: white;
+          cursor: pointer;
+          font-size: 1rem;
+        }
+  
+        .send-button i {
+          margin-left: 5px;
+        }
+  
+        .send-button:hover {
+          background-color: #45a049;
+          transform: translateY(-2px);
+        }
+  
+        .v-divider {
+          width: 1px;
+          height: 30px;
+          background-color: #ddd;
+        }
+  
+        #message-container {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+          max-height: 400px;
+          overflow-y: auto;
+          margin-bottom: 20px;
+        }
+  
+        #message-container::-webkit-scrollbar {
+         width: 8px;
+         }
+  
+         #message-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
+  
+  #message-container::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+  }
+  
+  #message-container::-webkit-scrollbar-thumb:hover {
+    background: #757575;
+  }
+  
+  
+        .message-left, .message-right {
+          
+          display:flex;
+          align-items: flex-start;
+          margin-bottom: 15px;
+          padding: 10px;
+          border-radius: 10px;
+          background-color: #f1f1f1;
+          word-wrap: break-word;
+          max-width: 70%;
+          line-height: 1.5;
+          animation: fadeIn 0.3s ease-in-out;
+          transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+  
+        .message-right {
+          background-color: #4c9eff;
+          align-self: flex-end;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+  
+        .message-left {
+          background-color: #e9e9e9;
+          align-self: flex-start;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+  
+        .message p {
+          margin: 0;
+        }
+  
+        .message span {
+          font-size: 0.85rem;
+          color: #777;
+          display: block;
+          margin-top: 5px;
+        }
+  
+        .clients-total {
+          text-align: center;
+          font-size: 1.2rem;
+          color: #555;
+          margin-top: 20px;
+        }
+  
+        .message-feedback {
+          text-align: center;
+          color: #777;
+          font-style: italic;
+          margin-bottom: 15px;
+        }
+  
+        .message-left:hover, .message-right:hover {
+    transform: translateY(-2px);
+  }
+  
+  
+        @media (max-width: 768px) {
+          .message-form {
+            flex-direction: column;
+          }
+  
+          .message-input {
+            width: 100%;
+            margin-right: 0;
+            margin-bottom: 10px;
+          }
+  
+          .send-button {
+            width: 100%;
+          }
+        }
+      </style>  
+    
+   
+  </head>
+  <body>
+    <h1 class="title">ChatterBox 💬</h1>
+    <div class="main">
+      <div class="name">
+        <span><i class="far fa-user"></i></span>
+        <input
+          type="text"
+          id="name-input"
+          class="name-input"
+          value="<%= username %>"
+          maxlength="20"
+          readonly
+        />
+      </div>
+
+      <!-- Message container (for dynamic updates) -->
+      <ul id="message-container">
+        <% messages.forEach(function(message) { %>
+          <% if (message.sender && message.text && message.dateTime) { %>
+            <li class="<%= message.sender === username ? 'message-right' : 'message-left' %>">
+              <p class="message">
+                <%= message.text.replace(/</g, "&lt;").replace(/>/g, "&gt;") %> <!-- Prevent XSS -->
+                <span>
+                  <%= message.sender %> ● 
+                  <%= new Date(message.dateTime).getHours() %>:
+                  <%= ('0' + new Date(message.dateTime).getMinutes()).slice(-2) %> <!-- Ensure two-digit minutes -->
+                </span>
+              </p>
+            </li>
+          <% } %>
+        <% }); %>
+      </ul>
+
+      <form class="message-form" id="message-form">
+        <input
+          type="text"
+          name="message"
+          id="message-input"
+          class="message-input"
+          placeholder="Type your message..."
+        />
+        <div class="v-divider"></div>
+        <button type="submit" class="send-button">
+          Send <span><i class="fas fa-paper-plane"></i></span>
+        </button>
+      </form>
+    </div>
+    <h3 class="clients-total" id="client-total">Total clients: 2</h3>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io();
+      const messageContainer = document.getElementById("message-container");
+      const messageInput = document.getElementById("message-input");
+      const messageForm = document.getElementById("message-form");
+      const nameInput = document.getElementById("name-input");
+
+      // Send message to the server
+      messageForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const message = messageInput.value.trim();
+          if (!message) return;
+
+          socket.emit("message", {
+              name: nameInput.value.trim(),
+              message: message,
+          });
+
+          messageInput.value = "";
+      });
+
+      // Listen for messages from the server
+      socket.on("chat-message", (messages) => {
+          messages.forEach((message) => {
+              if (message.sender && message.text && message.dateTime) {
+                  const element = document.createElement("li");
+                  element.className = message.sender === nameInput.value ? "message-right" : "message-left";
+                  element.innerHTML = `
+                      <p class="message">
+                          ${message.text.replace(/</g, "&lt;").replace(/>/g, "&gt;")}
+                          <span>${message.sender} ● ${new Date(message.dateTime).getHours()}:${('0' + new Date(message.dateTime).getMinutes()).slice(-2)}</span>
+                      </p>
+                  `;
+                  messageContainer.appendChild(element);
+              }
+          });
+      });
+    </script>
+  </body>
+</html>
