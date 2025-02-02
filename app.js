@@ -19,13 +19,16 @@ const server = require("http").createServer(app);
 // Integrating Socket.IO with the HTTP Server
 const io = require("socket.io")(server, {
     cors: {
-        origin: "https://chatapp-ylzi.vercel.app",
+        origin: "*",
         methods: ["GET", "POST"],
     },
-    pingTimeout: 60000,  // Add connection stability settings
+    pingTimeout: 60000,  
     connectTimeout: 60000,
     path: '/socket.io',
-    transports: ['polling', 'websocket']
+    transports: ['polling', 'websocket'],
+    reconnectionAttempts: 5,  
+  reconnectionDelay: 1000, 
+  reconnectionDelayMax: 5000 
 });
 
 // Middleware
