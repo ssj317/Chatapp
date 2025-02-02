@@ -1,4 +1,4 @@
-const socket = io();
+const socket = io("https://chatapp-ylzi.vercel.app");
 
 const clientsTotal = document.getElementById("client-total");
 const messageContainer = document.getElementById("message-container");
