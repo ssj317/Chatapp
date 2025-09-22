@@ -43,6 +43,10 @@ app.set("views", path.resolve("./views"));
 
 // Routes
 app.use("/auth", routes);
+app.get("/loaderio-d6e670ab8454e5399847008e2fa9ccee.txt", (req, res) => {
+  res.send("loaderio-d6e670ab8454e5399847008e2fa9ccee");
+});
+
 
 let socketsConnected = new Set();
 
